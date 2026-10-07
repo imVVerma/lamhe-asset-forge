@@ -1,26 +1,62 @@
 import streamlit as st
 import os
+import shutil
+import uuid
+import zipfile
 from PIL import Image
 from photo_duplicate_finder import DuplicateFinder
 from photo_compressor import run_compression
 
-st.set_page_config(page_title="Photo Duplicate Finder", layout="wide")
+st.set_page_config(page_title="Lamhe Asset Forge", layout="wide")
 
-st.title("Photo Duplicate Finder - Review & Clean")
+st.title("📸 Lamhe Asset Forge")
 
 # State management
+if 'session_id' not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
 if 'report' not in st.session_state:
     st.session_state.report = None
 if 'user_decisions' not in st.session_state:
     st.session_state.user_decisions = {}
 
-scan_dir = st.text_input("Enter directory path to scan:", "")
+mode = st.radio("Operation Mode", ["Local Machine (Folder Path)", "Cloud / Mobile (Upload Photos)"])
 threshold = st.slider("Similarity Threshold (0=Exact, 5=Very Similar, 10=Similar)", 0, 15, 5)
 use_ai = st.checkbox("Use AI Quality Ranking", value=True)
 
-if st.button("Scan Directory"):
+scan_dir = ""
+
+if mode == "Cloud / Mobile (Upload Photos)":
+    st.info("Mobile Mode: Photos are temporarily uploaded to the server for processing.")
+    cloud_dir = os.path.join("cloud_sessions", st.session_state.session_id)
+    os.makedirs(cloud_dir, exist_ok=True)
+    scan_dir = cloud_dir
+    
+    uploaded_files = st.file_uploader("Upload Event Photos", accept_multiple_files=True, type=['jpg', 'jpeg', 'png'])
+    if st.button("Save Uploads to Server"):
+        if not uploaded_files:
+            st.error("Please upload some photos first.")
+        else:
+            with st.spinner("Saving uploads..."):
+                # Clear old files in session
+                for f in os.listdir(cloud_dir):
+                    fp = os.path.join(cloud_dir, f)
+                    if os.path.isfile(fp):
+                        try:
+                            os.remove(fp)
+                        except:
+                            pass
+                        
+                for uploaded_file in uploaded_files:
+                    file_path = os.path.join(cloud_dir, uploaded_file.name)
+                    with open(file_path, "wb") as f:
+                        f.write(uploaded_file.getbuffer())
+                st.success(f"Saved {len(uploaded_files)} photos ready for scanning!")
+else:
+    scan_dir = st.text_input("Enter directory path to scan:", "")
+
+if st.button("Scan for Duplicates", type="primary"):
     if not scan_dir or not os.path.isdir(scan_dir):
-        st.error("Please enter a valid directory path.")
+        st.error("Please provide a valid directory or upload files first.")
     else:
         progress_text = "Scanning directory... (Cache is active)"
         progress_bar = st.progress(0, text=progress_text)
@@ -44,7 +80,6 @@ if st.button("Scan Directory"):
             status_text.text("Finding duplicates among hashes...")
             dup_groups = finder.find_duplicates()
             
-            # Clear progress UI elements when done
             progress_bar.empty()
             status_text.empty()
             
@@ -52,11 +87,9 @@ if st.button("Scan Directory"):
                 st.success("No duplicates found!")
                 st.session_state.report = None
             else:
-                # Generate report to get the AI recommendations
-                report = finder.generate_report(dup_groups, output_file='streamlit_report.json')
+                report = finder.generate_report(dup_groups, output_file=os.path.join(scan_dir, 'streamlit_report.json'))
                 st.session_state.report = report
                 
-                # Initialize user decisions based on AI recommendation
                 st.session_state.user_decisions = {}
                 for group in report['groups']:
                     group_id = group['group_id']
@@ -92,7 +125,6 @@ if st.session_state.report:
                 if 'quality_score' in file_info:
                     st.write(f"**AI Score: {file_info['quality_score']:.3f}**")
                 
-                # Button to select this image to keep
                 if st.button(f"Keep {filename}", key=f"btn_{group_id}_{i}"):
                     st.session_state.user_decisions[group_id] = filepath
                     st.rerun()
@@ -122,7 +154,7 @@ if st.session_state.report:
                         st.error(f"Failed to delete {file_info['path']}: {e}")
         
         st.success(f"Successfully deleted {deleted_count} files and freed {freed_mb:.2f} MB!")
-        st.session_state.report = None # Reset after deletion
+        st.session_state.report = None 
         st.rerun()
 
 # Compression Section
@@ -190,5 +222,19 @@ if st.button("Start Compression", type="primary"):
             
             if success:
                 st.success(msg)
+                
+                # If Cloud Mode, zip and offer download
+                if mode == "Cloud / Mobile (Upload Photos)":
+                    zip_path = os.path.join(c_scan_dir, "compressed_photos.zip")
+                    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                        compressed_dir = os.path.join(c_scan_dir, "_compressed")
+                        for root, _, files in os.walk(compressed_dir):
+                            for file in files:
+                                f_path = os.path.join(root, file)
+                                arcname = os.path.relpath(f_path, compressed_dir)
+                                zipf.write(f_path, arcname)
+                                
+                    with open(zip_path, "rb") as f:
+                        st.download_button("📥 Download Compressed Photos (ZIP)", f, file_name="compressed_photos.zip", type="primary")
             else:
                 st.error(msg)
