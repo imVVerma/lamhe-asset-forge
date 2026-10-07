@@ -24,9 +24,10 @@ threshold = st.slider("Similarity Threshold (0=Exact, 5=Very Similar, 10=Similar
 use_ai = st.checkbox("Use AI Quality Ranking", value=True)
 
 scan_dir = ""
+scan_ready = False
 
 if mode == "Cloud / Mobile (Upload Photos)":
-    st.info("Mobile Mode: Photos are temporarily uploaded to the server for processing.")
+    st.warning("☁️ **Cloud / Mobile Mode**: Upload capacity limited to ~200MB (approx 50-100 photos) per batch to prevent server crashes. Perfect for quick event cleanups from your phone.")
     cloud_dir = os.path.join("cloud_sessions", st.session_state.session_id)
     os.makedirs(cloud_dir, exist_ok=True)
     scan_dir = cloud_dir
@@ -37,7 +38,6 @@ if mode == "Cloud / Mobile (Upload Photos)":
             st.error("Please upload some photos first.")
         else:
             with st.spinner("Saving uploads..."):
-                # Clear old files in session
                 for f in os.listdir(cloud_dir):
                     fp = os.path.join(cloud_dir, f)
                     if os.path.isfile(fp):
@@ -51,10 +51,18 @@ if mode == "Cloud / Mobile (Upload Photos)":
                     with open(file_path, "wb") as f:
                         f.write(uploaded_file.getbuffer())
                 st.success(f"Saved {len(uploaded_files)} photos ready for scanning!")
+                st.rerun() # Force UI refresh to unlock the scan button
+                
+    has_images = len([f for f in os.listdir(cloud_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]) > 0
+    scan_ready = has_images
+    if not has_images:
+        st.info("Please upload and save your photos before scanning.")
 else:
+    st.info("💻 **Local Machine Mode**: Unlimited capacity. The app reads directly from your hard drive without uploading. Ideal for processing your entire 160GB portfolio.")
     scan_dir = st.text_input("Enter directory path to scan:", "")
+    scan_ready = bool(scan_dir)
 
-if st.button("Scan for Duplicates", type="primary"):
+if st.button("Scan for Duplicates", type="primary", disabled=not scan_ready):
     if not scan_dir or not os.path.isdir(scan_dir):
         st.error("Please provide a valid directory or upload files first.")
     else:
