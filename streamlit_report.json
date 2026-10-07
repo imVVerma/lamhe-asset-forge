@@ -1,0 +1,158 @@
+{
+  "scan_date": "2026-10-08T03:43:50.458050",
+  "root_directory": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final",
+  "total_images_scanned": 65,
+  "duplicate_groups_found": 5,
+  "total_duplicates": 7,
+  "groups": [
+    {
+      "group_id": 1,
+      "duplicate_count": 2,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1734.JPG",
+          "size": 18818673,
+          "size_mb": 17.95,
+          "modified": "2025-12-13T19:23:12.435410",
+          "created": "2025-12-13T19:23:08.486643",
+          "quality_score": 0.3769,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1733.JPG",
+          "size": 18248276,
+          "size_mb": 17.4,
+          "modified": "2025-12-13T19:22:57.305654",
+          "created": "2025-12-13T19:22:53.433858",
+          "quality_score": 0.3634,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1734.JPG",
+      "wasted_space_mb": 17.4
+    },
+    {
+      "group_id": 2,
+      "duplicate_count": 4,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1746.JPG",
+          "size": 14875257,
+          "size_mb": 14.19,
+          "modified": "2025-12-13T19:24:05.181095",
+          "created": "2025-12-13T19:24:03.258894",
+          "quality_score": 0.3084,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1744.JPG",
+          "size": 14461958,
+          "size_mb": 13.79,
+          "modified": "2025-12-13T19:23:48.991100",
+          "created": "2025-12-13T19:23:47.110214",
+          "quality_score": 0.3076,
+          "action": "DELETE"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1745.JPG",
+          "size": 14572600,
+          "size_mb": 13.9,
+          "modified": "2025-12-13T19:23:58.932029",
+          "created": "2025-12-13T19:23:56.601479",
+          "quality_score": 0.2998,
+          "action": "DELETE"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1743.JPG",
+          "size": 14174098,
+          "size_mb": 13.52,
+          "modified": "2025-12-13T19:23:36.593972",
+          "created": "2025-12-13T19:23:34.202313",
+          "quality_score": 0.296,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1746.JPG",
+      "wasted_space_mb": 41.21
+    },
+    {
+      "group_id": 3,
+      "duplicate_count": 2,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1755.JPG",
+          "size": 18750337,
+          "size_mb": 17.88,
+          "modified": "2025-12-13T19:26:41.657922",
+          "created": "2025-12-13T19:26:39.284431",
+          "quality_score": 0.4401,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1750.JPG",
+          "size": 16643040,
+          "size_mb": 15.87,
+          "modified": "2025-12-13T19:26:15.065241",
+          "created": "2025-12-13T19:26:10.826866",
+          "quality_score": 0.408,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1755.JPG",
+      "wasted_space_mb": 15.87
+    },
+    {
+      "group_id": 4,
+      "duplicate_count": 2,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1790.JPG",
+          "size": 17823807,
+          "size_mb": 17.0,
+          "modified": "2025-12-13T19:29:50.085492",
+          "created": "2025-12-13T19:29:47.082607",
+          "quality_score": 0.4361,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1789 (1).JPG",
+          "size": 17387178,
+          "size_mb": 16.58,
+          "modified": "2025-12-13T19:29:32.544540",
+          "created": "2025-12-13T19:29:30.211959",
+          "quality_score": 0.4306,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\5G4A1790.JPG",
+      "wasted_space_mb": 16.58
+    },
+    {
+      "group_id": 5,
+      "duplicate_count": 2,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\RGV01691.JPG",
+          "size": 8314542,
+          "size_mb": 7.93,
+          "modified": "2025-12-13T18:37:44.617540",
+          "created": "2025-12-13T18:37:42.621718",
+          "quality_score": 0.3708,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\RGV01690.JPG",
+          "size": 8206992,
+          "size_mb": 7.83,
+          "modified": "2025-12-13T18:37:57.040559",
+          "created": "2025-12-13T18:37:53.849758",
+          "quality_score": 0.3678,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\ConfAI Cover\\Final\\OC_Final\\RGV01691.JPG",
+      "wasted_space_mb": 7.83
+    }
+  ],
+  "total_wasted_space_mb": 98.89
+}

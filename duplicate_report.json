@@ -1,0 +1,229 @@
+{
+  "scan_date": "2025-12-22T22:23:38.357331",
+  "root_directory": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle",
+  "total_images_scanned": 36,
+  "duplicate_groups_found": 6,
+  "total_duplicates": 12,
+  "similarity_threshold": 5,
+  "ai_ranking_enabled": true,
+  "groups": [
+    {
+      "group_id": 1,
+      "duplicate_count": 3,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0879.JPG",
+          "size": 5580297,
+          "size_mb": 5.32,
+          "modified": "2025-11-08T16:40:50",
+          "created": "2025-11-08T23:50:11.096738",
+          "quality_score": 0.4148,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0878.JPG",
+          "size": 5347177,
+          "size_mb": 5.1,
+          "modified": "2025-11-08T16:40:48",
+          "created": "2025-11-08T23:50:10.392639",
+          "quality_score": 0.3192,
+          "action": "DELETE"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0877.JPG",
+          "size": 5390175,
+          "size_mb": 5.14,
+          "modified": "2025-11-08T16:40:46",
+          "created": "2025-11-08T23:50:09.678997",
+          "quality_score": 0.3171,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0879.JPG",
+      "keep_quality_score": 0.4148,
+      "wasted_space_mb": 10.24
+    },
+    {
+      "group_id": 2,
+      "duplicate_count": 4,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0885.JPG",
+          "size": 5512956,
+          "size_mb": 5.26,
+          "modified": "2025-11-08T16:41:56",
+          "created": "2025-11-08T23:50:15.594505",
+          "quality_score": 0.5653,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0882.JPG",
+          "size": 5538520,
+          "size_mb": 5.28,
+          "modified": "2025-11-08T16:41:50",
+          "created": "2025-11-08T23:50:13.224006",
+          "quality_score": 0.3271,
+          "action": "DELETE"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0883.JPG",
+          "size": 5493058,
+          "size_mb": 5.24,
+          "modified": "2025-11-08T16:41:52",
+          "created": "2025-11-08T23:50:14.012872",
+          "quality_score": 0.3264,
+          "action": "DELETE"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0884.JPG",
+          "size": 5583927,
+          "size_mb": 5.33,
+          "modified": "2025-11-08T16:41:54",
+          "created": "2025-11-08T23:50:14.803902",
+          "quality_score": 0.2978,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0885.JPG",
+      "keep_quality_score": 0.5653,
+      "wasted_space_mb": 15.85
+    },
+    {
+      "group_id": 3,
+      "duplicate_count": 2,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0887.JPG",
+          "size": 6092508,
+          "size_mb": 5.81,
+          "modified": "2025-11-08T16:42:00",
+          "created": "2025-11-08T23:50:17.131547",
+          "quality_score": 0.5862,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0886.JPG",
+          "size": 5877404,
+          "size_mb": 5.61,
+          "modified": "2025-11-08T16:41:58",
+          "created": "2025-11-08T23:50:16.371767",
+          "quality_score": 0.5619,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0887.JPG",
+      "keep_quality_score": 0.5862,
+      "wasted_space_mb": 5.61
+    },
+    {
+      "group_id": 4,
+      "duplicate_count": 3,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0895.JPG",
+          "size": 5778299,
+          "size_mb": 5.51,
+          "modified": "2025-11-08T16:42:42",
+          "created": "2025-11-08T23:50:22.870277",
+          "quality_score": 0.315,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0889.JPG",
+          "size": 5934487,
+          "size_mb": 5.66,
+          "modified": "2025-11-08T16:42:28",
+          "created": "2025-11-08T23:50:18.635371",
+          "quality_score": 0.2914,
+          "action": "DELETE"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0890.JPG",
+          "size": 5924445,
+          "size_mb": 5.65,
+          "modified": "2025-11-08T16:42:30",
+          "created": "2025-11-08T23:50:19.345559",
+          "quality_score": 0.2901,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0895.JPG",
+      "keep_quality_score": 0.315,
+      "wasted_space_mb": 11.31
+    },
+    {
+      "group_id": 5,
+      "duplicate_count": 4,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0893.JPG",
+          "size": 5138143,
+          "size_mb": 4.9,
+          "modified": "2025-11-08T16:42:38",
+          "created": "2025-11-08T23:50:21.479866",
+          "quality_score": 0.3222,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0894.JPG",
+          "size": 5179208,
+          "size_mb": 4.94,
+          "modified": "2025-11-08T16:42:40",
+          "created": "2025-11-08T23:50:22.171187",
+          "quality_score": 0.2962,
+          "action": "DELETE"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0892.JPG",
+          "size": 5632002,
+          "size_mb": 5.37,
+          "modified": "2025-11-08T16:42:36",
+          "created": "2025-11-08T23:50:20.764743",
+          "quality_score": 0.2788,
+          "action": "DELETE"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0891.JPG",
+          "size": 5641830,
+          "size_mb": 5.38,
+          "modified": "2025-11-08T16:42:32",
+          "created": "2025-11-08T23:50:20.063409",
+          "quality_score": 0.2772,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0893.JPG",
+      "keep_quality_score": 0.3222,
+      "wasted_space_mb": 15.69
+    },
+    {
+      "group_id": 6,
+      "duplicate_count": 2,
+      "files": [
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0896.JPG",
+          "size": 5476630,
+          "size_mb": 5.22,
+          "modified": "2025-11-08T16:42:46",
+          "created": "2025-11-08T23:50:23.564859",
+          "quality_score": 0.3044,
+          "action": "KEEP"
+        },
+        {
+          "path": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0897.JPG",
+          "size": 5879306,
+          "size_mb": 5.61,
+          "modified": "2025-11-08T16:42:46",
+          "created": "2025-11-08T23:50:24.260645",
+          "quality_score": 0.2364,
+          "action": "DELETE"
+        }
+      ],
+      "recommended_keep": "C:\\Users\\Vaibhav Verma\\Pictures\\FPCP\\Sahil & Michelle\\DSC_0896.JPG",
+      "keep_quality_score": 0.3044,
+      "wasted_space_mb": 5.61
+    }
+  ],
+  "total_wasted_space_mb": 64.3,
+  "total_wasted_space_gb": 0.06
+}
