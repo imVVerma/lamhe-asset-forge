@@ -24,13 +24,21 @@ To maximize storage efficiency and keep our OneDrive portfolios organized, inser
 
 ## 🚀 Getting Started & Running the App
 
+Depending on your role and what you are trying to test, there are two ways to access the app:
+
+### Option A: Cloud Testing (For general testers & mobile users)
+Simply click the public link below to access the live app. No installation required!
+👉 **[lamhe-asset-forge-fpcp.streamlit.app](https://lamhe-asset-forge-fpcp.streamlit.app/)**
+*(Note: You must use the "Cloud / Mobile" mode to upload files here. Do not try to type `C:\` paths).*
+
+### Option B: Local Heavy-Duty Mode (For processing 160GB portfolios)
+If you need to process massive folders directly from your hard drive, you must run the app locally:
 1. Open your terminal or command prompt inside the project directory.
 2. Launch the application using Python's module runner:
    ```bash
    python -m streamlit run app.py
    ```
-3. If prompted by Streamlit to share your email address for onboarding, you can press **Enter** to skip it.
-4. The local web interface will automatically open in your default browser.
+3. The local web interface will automatically open in your default browser at `http://localhost:8501`.
 
 ---
 
