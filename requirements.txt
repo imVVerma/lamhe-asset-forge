@@ -2,6 +2,6 @@ streamlit
 opencv-python-headless
 Pillow
 ImageHash
-mediapipe
+mediapipe<=0.10.14
 piexif
 tqdm
