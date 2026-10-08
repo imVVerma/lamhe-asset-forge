@@ -114,7 +114,9 @@ if st.button("Scan for Duplicates", type="primary", disabled=not scan_ready):
         def update_progress(current, total, current_file):
             if current % 5 == 0 or current == total - 1:
                 progress = (current + 1) / total
-                progress_bar.progress(progress, text=f"Scanning {current + 1}/{total}")
+                # Clamp progress between 0.0 and 1.0 to prevent Streamlit out-of-range errors
+                clamped_progress = min(max(progress, 0.0), 1.0)
+                progress_bar.progress(clamped_progress, text=f"Scanning {current + 1}/{total}")
                 status_text.text(f"Processing: {os.path.basename(current_file)}")
 
         with st.spinner("Compiling results..."):
