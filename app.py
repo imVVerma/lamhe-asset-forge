@@ -205,10 +205,17 @@ with col2:
         10, 100, 75,
         help="75 provides a very small file size (~500KB) while still looking crisp on phones and web browsers."
     )
+    strip_exif = st.checkbox(
+        "Strip EXIF Data (Privacy)",
+        value=False,
+        help="Removes camera model, GPS, and timestamp metadata. Check this if sharing publicly online. Uncheck to preserve original metadata."
+    )
     
 if st.button("Start Compression", type="primary"):
     if not c_scan_dir or not os.path.isdir(c_scan_dir):
         st.error("Please enter a valid directory.")
+    elif do_web and do_archive and web_q > arch_q:
+        st.error("⚠️ **Conflicting Settings**: Your Web Quality is set higher than your Backup Quality! Please ensure Web Quality is less than or equal to Backup Quality.")
     else:
         c_prog_text = "Starting compression..."
         c_prog_bar = st.progress(0, text=c_prog_text)
@@ -227,6 +234,7 @@ if st.button("Start Compression", type="primary"):
                 web_quality=web_q, 
                 do_archive=do_archive, 
                 do_web=do_web,
+                strip_exif=strip_exif,
                 progress_callback=c_progress
             )
             

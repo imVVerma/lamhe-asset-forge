@@ -35,28 +35,29 @@ def filter_exif(exif_bytes):
     except Exception:
         return b""
 
-def process_image(src_path, archive_path, web_path, do_archive, do_web, archive_q, web_q):
+def process_image(src_path, archive_path, web_path, do_archive, do_web, archive_q, web_q, strip_exif=False):
     try:
         with Image.open(src_path) as img:
             img = ImageOps.exif_transpose(img)
             exif_data = img.info.get('exif', b'')
-            clean_exif = filter_exif(exif_data)
+            
+            final_exif = filter_exif(exif_data) if strip_exif else exif_data
             
             if do_archive and not os.path.exists(archive_path):
                 os.makedirs(os.path.dirname(archive_path), exist_ok=True)
-                img.save(archive_path, 'JPEG', quality=archive_q, optimize=True, exif=clean_exif)
+                img.save(archive_path, 'JPEG', quality=archive_q, optimize=True, exif=final_exif)
                 
             if do_web and not os.path.exists(web_path):
                 os.makedirs(os.path.dirname(web_path), exist_ok=True)
                 web_img = img.copy()
                 web_img.thumbnail((1920, 1920), Image.Resampling.LANCZOS)
-                web_img.save(web_path, 'JPEG', quality=web_q, optimize=True, exif=clean_exif)
+                web_img.save(web_path, 'JPEG', quality=web_q, optimize=True, exif=final_exif)
                 
         return True, None
     except Exception as e:
         return False, str(e)
 
-def run_compression(source_dir, output_dir=None, archive_quality=90, web_quality=75, do_archive=True, do_web=True, progress_callback=None):
+def run_compression(source_dir, output_dir=None, archive_quality=90, web_quality=75, do_archive=True, do_web=True, strip_exif=False, progress_callback=None):
     source_dir = Path(source_dir).resolve()
     if not source_dir.is_dir():
         return False, f"Source directory {source_dir} does not exist."
@@ -114,7 +115,8 @@ def run_compression(source_dir, output_dir=None, archive_quality=90, web_quality
         success, err = process_image(
             file_path, str(archive_path), str(web_path), 
             do_archive, do_web, 
-            archive_quality, web_quality
+            archive_quality, web_quality,
+            strip_exif
         )
         
         if success:

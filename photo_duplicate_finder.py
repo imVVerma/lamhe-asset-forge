@@ -134,9 +134,11 @@ class DuplicateFinder:
     def find_all_images(self):
         images = []
         try:
-            for ext in self.image_extensions:
-                images.extend(self.root_dir.rglob(f'*{ext}'))
-                images.extend(self.root_dir.rglob(f'*{ext.upper()}'))
+            for root, _, files in os.walk(self.root_dir):
+                for file in files:
+                    # Check extension quickly without upper/lower passes
+                    if os.path.splitext(file)[1].lower() in self.image_extensions:
+                        images.append(Path(root) / file)
             logger.info(f"Discovered {len(images)} potential image files in {self.root_dir}")
         except PermissionError as e:
             logger.error(f"Permission denied while scanning directory {self.root_dir}: {e}")
@@ -182,33 +184,40 @@ class DuplicateFinder:
             total = len(to_process)
             
             with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
-                # Submit tasks
-                future_to_img = {
-                    executor.submit(compute_image_metrics, img, self.hash_size, self.use_ai_ranking): img 
-                    for img in to_process
-                }
+                # Process in chunks to prevent OOM on 50,000+ files
+                chunk_size = 1000
                 
-                for future in tqdm(concurrent.futures.as_completed(future_to_img), total=total, desc="Computing..."):
-                    result = future.result()
-                    img_str = result['path']
-                    
-                    if result.get('error'):
-                        logger.error(f"Error processing {img_str}: {result['error']}")
-                        continue
-                        
-                    if result.get('hash'):
-                        self.file_hashes[img_str] = imagehash.hex_to_hash(result['hash'])
-                        self.image_scores[img_str] = result['score']
-                        
-                        self.cache[img_str] = {
-                            'mtime': result['mtime'],
-                            'hash': result['hash'],
-                            'quality_score': result['score']
+                with tqdm(total=total, desc="Computing...") as pbar:
+                    for i in range(0, total, chunk_size):
+                        chunk = to_process[i:i + chunk_size]
+                        future_to_img = {
+                            executor.submit(compute_image_metrics, img, self.hash_size, self.use_ai_ranking): img 
+                            for img in chunk
                         }
                     
-                    completed += 1
-                    if self.progress_callback:
-                        self.progress_callback(completed, total, img_str)
+                        for future in concurrent.futures.as_completed(future_to_img):
+                            result = future.result()
+                            img_str = result['path']
+                            
+                            pbar.update(1)
+                            
+                            if result.get('error'):
+                                logger.error(f"Error processing {img_str}: {result['error']}")
+                                continue
+                                
+                            if result.get('hash'):
+                                self.file_hashes[img_str] = imagehash.hex_to_hash(result['hash'])
+                                self.image_scores[img_str] = result['score']
+                                
+                                self.cache[img_str] = {
+                                    'mtime': result['mtime'],
+                                    'hash': result['hash'],
+                                    'quality_score': result['score']
+                                }
+                            
+                            completed += 1
+                            if self.progress_callback:
+                                self.progress_callback(completed, total, img_str)
                         
                     if completed > 0 and completed % 50 == 0:
                         self._save_cache()
