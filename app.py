@@ -21,7 +21,11 @@ if 'user_decisions' not in st.session_state:
 
 mode = st.radio("Operation Mode", ["Local Machine (Folder Path)", "Cloud / Mobile (Upload Photos)"])
 threshold = st.slider("Similarity Threshold (0=Exact, 5=Very Similar, 10=Similar)", 0, 15, 5)
-use_ai = st.checkbox("Use AI Quality Ranking", value=True)
+use_ai = st.checkbox(
+    "Use AI Quality Ranking", 
+    value=True,
+    help="Automatically looks at your photos and recommends the best one to keep based on sharpness, lighting, and smiles."
+)
 
 scan_dir = ""
 scan_ready = False
@@ -58,7 +62,7 @@ if mode == "Cloud / Mobile (Upload Photos)":
     if not has_images:
         st.info("Please upload and save your photos before scanning.")
 else:
-    st.info("💻 **Local Machine Mode (Host Environment)**: Reads directly from the server's hard drive where this app is currently hosted. (If you are accessing this via a cloud URL, this will look at the cloud server's files, not your personal laptop.)")
+    st.info("💻 **Local Machine Mode (Advanced)**: To scan massive 160GB folders on your hard drive, you **must run this app locally on your own computer** (by opening a terminal and typing `streamlit run app.py`). If you are currently viewing this app on a website URL, switch to the Cloud / Mobile upload mode above, because a website cannot look inside your C: drive!")
     
     with st.form("local_path_form"):
         col1, col2 = st.columns([4, 1])
