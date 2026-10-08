@@ -63,7 +63,7 @@ else:
     with st.form("local_path_form"):
         col1, col2 = st.columns([4, 1])
         with col1:
-            raw_scan_dir = st.text_input("Enter directory path to scan:", "")
+            raw_scan_dir = st.text_input("Enter directory path to scan:", "", placeholder="e.g., C:/Users/YourName/Pictures/Portfolio")
         with col2:
             st.write("") # spacing
             st.write("") # spacing
@@ -76,7 +76,10 @@ else:
             st.success(f"✅ Folder verified! Ready to scan.")
             scan_ready = True
         else:
-            st.error("❌ Directory not found on the host machine. Please check the path.")
+            if scan_dir.lower().startswith("c:\\") and os.name != 'nt':
+                st.error("⚠️ **Cloud Environment Detected**: You are trying to enter a Windows `C:\\` path, but this app is currently hosted on a Linux cloud server. Please switch to **Cloud / Mobile (Upload Photos)** mode above to upload your local files.")
+            else:
+                st.error("❌ Directory not found on the host machine. Please check the path.")
             scan_ready = False
     else:
         scan_dir = ""
