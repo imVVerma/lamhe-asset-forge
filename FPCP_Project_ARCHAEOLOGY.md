@@ -100,4 +100,25 @@ This project is a command-line tool that scans your folders to find duplicate an
 4. **GUI / Web Interface for Review**: Command-line output is intimidating for general users managing their personal photos. Build a simple local web interface (using Streamlit or Gradio) that allows users to visually compare the duplicate groups side-by-side and manually override the AI's "keep/delete" recommendations before executing.
 5. **Add Robust Error Handling & Logging**: Implement proper logging (using Python's `logging` module) instead of `print()` statements. Handle edge cases like corrupted image files, permission denied errors, or unsupported file formats gracefully without crashing the entire run.
 
+---
+
+## 🏗️ QA / Stress-Testing Roadmap
+
+This roadmap captures the friction points a user experiences from app launch to final compression.
+
+### Phase 1: Input & Path Validation (The Prerequisites)
+You cannot process files if the app cannot read the path or if the user gets stuck on the UI.
+* **OS Path Formatting (Windows vs. Linux/Mac):** The app must understand the context it's running in. If the app is on the cloud, a local path string will fail instantly. This conceptual guardrail is the very first point of friction.
+* **The "Press Enter" Trap:** Once the user understands what kind of path to enter, they must successfully submit it. If the button doesn't enable because Streamlit's state hasn't registered the input, the workflow dies here.
+* **Non-Existent Paths:** The backend must catch the `FileNotFoundError` right at the boundary between UI submission and the actual file scanning.
+
+### Phase 2: Performance & Memory Bottlenecks (The Scanning Phase)
+Once the path is validated, the app begins walking the directory and processing the files.
+* **IO Latency:** The very first thing the backend does with a valid path is use `os.walk` or `pathlib.rglob` to traverse the directory. Deeply nested structures will cause IO latency before any image hashing even begins.
+* **Memory Leaks during Hashing:** Opening files and generating perceptual hashes must be chunked or batched to prevent an Out-Of-Memory (OOM) crash, especially for massive folders.
+
+### Phase 3: Compression & Configuration Logic (The Action Phase)
+After duplicates are found and the user decides to compress/backup their files.
+* **Conflicting Settings:** Before the final compression pipeline runs, the app must validate user rules (e.g., Web Quality <= Backup Quality) before executing expensive processing.
+* **EXIF Data Stripping:** The final step. The Pillow compression runs and must ensure output files maintain their EXIF integrity (camera model, GPS, timestamps) unless explicitly configured otherwise.
 

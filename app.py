@@ -60,11 +60,16 @@ if mode == "Cloud / Mobile (Upload Photos)":
 else:
     st.info("💻 **Local Machine Mode**: Unlimited capacity. The app reads directly from your hard drive without uploading. Ideal for processing your entire 160GB portfolio.")
     scan_dir = st.text_input("Enter directory path to scan:", "")
-    scan_ready = bool(scan_dir)
+    if scan_dir:
+        # Strip spaces, quotes, and hidden Windows unicode characters (LRE, RLE, PDF)
+        scan_dir = scan_dir.strip(' "\'\u202a\u202b\u202c')
+    # FIX for "Press Enter" Trap: Always enable the button in Local Mode. 
+    # Clicking it forces Streamlit to submit the text input state simultaneously!
+    scan_ready = True
 
 if st.button("Scan for Duplicates", type="primary", disabled=not scan_ready):
     if not scan_dir or not os.path.isdir(scan_dir):
-        st.error("Please provide a valid directory or upload files first.")
+        st.error(f"Please provide a valid directory or upload files first.\n\nDebug: Python sees the path as `{repr(scan_dir)}`")
     else:
         progress_text = "Scanning directory... (Cache is active)"
         progress_bar = st.progress(0, text=progress_text)
