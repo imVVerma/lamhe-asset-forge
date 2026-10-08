@@ -32,18 +32,17 @@ logging.basicConfig(
 logger = logging.getLogger("DuplicateFinder")
 
 # Module-level models for multiprocessing
-_mp_face_detection = None
+_cv2_face_cascade = None
 
 def get_face_detector():
-    global _mp_face_detection
-    if _mp_face_detection is None:
+    global _cv2_face_cascade
+    if _cv2_face_cascade is None:
         try:
-            import mediapipe as mp
-            _mp_face_detection = mp.solutions.face_detection.FaceDetection(
-                model_selection=1, min_detection_confidence=0.5)
-        except ImportError:
-            _mp_face_detection = False
-    return _mp_face_detection
+            cascade_path = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+            _cv2_face_cascade = cv2.CascadeClassifier(cascade_path)
+        except Exception:
+            _cv2_face_cascade = False
+    return _cv2_face_cascade
 
 def compute_image_metrics(img_path, hash_size=8, use_ai=True):
     """Module-level function so it can be pickled for multiprocessing"""
@@ -78,16 +77,14 @@ def compute_image_metrics(img_path, hash_size=8, use_ai=True):
         bright_ratio = np.sum(hist[225:]) / gray.size
         exposure_score = max(0.0, 1.0 - (dark_ratio + bright_ratio))
         
-        # 3. Deep Learning Face Detection (MediaPipe)
+        # 3. Deep Learning Face Detection (OpenCV Haar Cascade)
         face_detector = get_face_detector()
         face_score = 0.0
         if face_detector:
-            rgb_img = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
-            results = face_detector.process(rgb_img)
-            if results.detections:
-                # Up to 5 faces
-                face_count = len(results.detections)
-                face_score = min(face_count / 5.0, 1.0)
+            # OpenCV cascades run natively on grayscale images
+            faces = face_detector.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=4, minSize=(30, 30))
+            face_count = len(faces)
+            face_score = min(face_count / 5.0, 1.0)
                 
         # Total
         total_score = (sharpness_score * 0.4) + (exposure_score * 0.3) + (face_score * 0.3)
