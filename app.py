@@ -6,6 +6,13 @@ import zipfile
 from PIL import Image
 from photo_duplicate_finder import DuplicateFinder
 from photo_compressor import run_compression
+import socket
+
+def is_cloud_env():
+    # Streamlit Community Cloud typically mounts the app at /mount/src and runs as 'appuser'
+    if os.path.exists("/mount/src") or os.environ.get("USER") == "appuser":
+        return True
+    return False
 
 st.set_page_config(page_title="Lamhe Asset Forge", layout="wide")
 
@@ -19,7 +26,11 @@ if 'report' not in st.session_state:
 if 'user_decisions' not in st.session_state:
     st.session_state.user_decisions = {}
 
-mode = st.radio("Operation Mode", ["Local Machine (Folder Path)", "Cloud / Mobile (Upload Photos)"])
+if is_cloud_env():
+    mode = "Cloud / Mobile (Upload Photos)"
+    st.info("🌐 **Running on Public Cloud**: For security, remote apps cannot read your computer's hard drive directly. Please upload your files below.")
+else:
+    mode = st.radio("Operation Mode", ["Local Machine (Folder Path)", "Cloud / Mobile (Upload Photos)"])
 threshold = st.slider("Similarity Threshold (0=Exact, 5=Very Similar, 10=Similar)", 0, 15, 5)
 use_ai = st.checkbox(
     "Use AI Quality Ranking", 
