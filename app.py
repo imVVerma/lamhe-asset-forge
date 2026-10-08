@@ -196,11 +196,17 @@ st.divider()
 st.header("📸 Shrink & Save")
 st.write("After cleaning up your duplicates, compress the remaining photos to save space while keeping all the important camera data (EXIF).")
 
-c_scan_dir = st.text_input(
-    "Which folder do you want to compress?", 
-    scan_dir,
-    help="We will safely create a new '_compressed' folder inside this directory so your original files are never touched or modified."
-)
+if mode == "Cloud / Mobile (Upload Photos)":
+    c_scan_dir = scan_dir
+    st.info("☁️ Files will be compressed directly from your cloud uploads. The download link will appear below when finished.")
+else:
+    raw_c_scan_dir = st.text_input(
+        "Which folder do you want to compress?", 
+        scan_dir,
+        placeholder="e.g., C:/Users/YourName/Pictures/Portfolio",
+        help="We will safely create a new '_compressed' folder inside this directory so your original files are never touched or modified."
+    )
+    c_scan_dir = raw_c_scan_dir.strip(' "\'\u202a\u202b\u202c') if raw_c_scan_dir else ""
 
 st.subheader("Compression Options")
 col1, col2 = st.columns(2)
@@ -234,7 +240,10 @@ with col2:
     
 if st.button("Start Compression", type="primary"):
     if not c_scan_dir or not os.path.isdir(c_scan_dir):
-        st.error("Please enter a valid directory.")
+        if c_scan_dir.lower().startswith("c:\\") and os.name != 'nt':
+            st.error("⚠️ **Cloud Environment Detected**: You are trying to enter a Windows `C:\\` path, but this app is currently hosted on a Linux cloud server. Please switch to **Cloud / Mobile (Upload Photos)** mode above to upload your local files.")
+        else:
+            st.error("Please enter a valid directory.")
     elif do_web and do_archive and web_q > arch_q:
         st.error("⚠️ **Conflicting Settings**: Your Web Quality is set higher than your Backup Quality! Please ensure Web Quality is less than or equal to Backup Quality.")
     else:
