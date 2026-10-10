@@ -150,7 +150,7 @@ class DuplicateFinder:
             logger.warning("No images found to process.")
             return
 
-        logger.info(f"Processing {len(images)} images using multiprocessing...")
+        logger.info(f"Processing {len(images)} images sequentially...")
         
         to_process = []
         
@@ -172,50 +172,35 @@ class DuplicateFinder:
                 to_process.append(img_str)
                 
         if to_process:
-            logger.info(f"{len(to_process)} images need computation. Starting process pool...")
-            
-            # ProcessPoolExecutor for CPU-bound tasks
-            max_workers = max(1, os.cpu_count() - 1)
+            logger.info(f"{len(to_process)} images need computation. Starting sequential processing...")
             
             completed = 0
             total = len(to_process)
             
-            with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
-                # Process in chunks to prevent OOM on 50,000+ files
-                chunk_size = 1000
-                
-                with tqdm(total=total, desc="Computing...") as pbar:
-                    for i in range(0, total, chunk_size):
-                        chunk = to_process[i:i + chunk_size]
-                        future_to_img = {
-                            executor.submit(compute_image_metrics, img, self.hash_size, self.use_ai_ranking): img 
-                            for img in chunk
+            with tqdm(total=total, desc="Computing...") as pbar:
+                for img_str in to_process:
+                    result = compute_image_metrics(img_str, self.hash_size, self.use_ai_ranking)
+                    
+                    pbar.update(1)
+                    
+                    if result.get('error'):
+                        logger.error(f"Error processing {img_str}: {result['error']}")
+                        continue
+                        
+                    if result.get('hash'):
+                        self.file_hashes[img_str] = imagehash.hex_to_hash(result['hash'])
+                        self.image_scores[img_str] = result['score']
+                        
+                        self.cache[img_str] = {
+                            'mtime': result['mtime'],
+                            'hash': result['hash'],
+                            'quality_score': result['score']
                         }
                     
-                        for future in concurrent.futures.as_completed(future_to_img):
-                            result = future.result()
-                            img_str = result['path']
-                            
-                            pbar.update(1)
-                            
-                            if result.get('error'):
-                                logger.error(f"Error processing {img_str}: {result['error']}")
-                                continue
-                                
-                            if result.get('hash'):
-                                self.file_hashes[img_str] = imagehash.hex_to_hash(result['hash'])
-                                self.image_scores[img_str] = result['score']
-                                
-                                self.cache[img_str] = {
-                                    'mtime': result['mtime'],
-                                    'hash': result['hash'],
-                                    'quality_score': result['score']
-                                }
-                            
-                            completed += 1
-                            if self.progress_callback:
-                                self.progress_callback(completed, total, img_str)
-                        
+                    completed += 1
+                    if self.progress_callback:
+                        self.progress_callback(completed, total, img_str)
+                
                     if completed > 0 and completed % 50 == 0:
                         self._save_cache()
                         
